@@ -40,11 +40,12 @@ app.get("/user/:email", (req, res) => {
 
 //signup into db // insertion d'info d'utilisateur dans la base de donnée
 
-server.post("/person/add", (req, res) => {
+app.post("/person/add", (req, res) => {
     let detailsUser = {
       username: req.body.username,
       email: req.body.email,
       password: req.body.password,
+      pays: req.body.pays,
     };
     let sql = "INSERT INTO user SET ?";
     db.query(sql, detailsUser, (error) => {
@@ -56,9 +57,32 @@ server.post("/person/add", (req, res) => {
     });
   });
 
+//selection des fichier au base de donner
+app.get("/pub/:type", (req, res) => {
+  let type = req.params.type;
+  var sql = `SELECT * FROM pub WHERE type='${type}'`;
+  db.query(sql, function (error, result) {
+    if (result.data) {
+      res.send({ status: false, message: "aucun fichier" });
+    } else {
+      res.send({ status: true, message: "files selected succefully", data: result });
+    }
+  });
+});
 
-
-
+// selection d'un element depuis base de donne
+app.get("/select/:table/:id", (req, res) => {
+  let table = req.params.table;
+  let id = req.params.id;
+  var sql = `SELECT * FROM ${table} WHERE id='${id}'`;
+  db.query(sql, function (error, result) {
+    if (result.data) {
+      res.send({ status: false, message: "erreur de connection" });
+    } else {
+      res.send({ status: true, message: "connection valider", data: result });
+    }
+  });
+});
 
 
 
