@@ -89,6 +89,19 @@ app.get("/select/:table/:id", (req, res) => {
   });
 });
 
+// selection du tout contenu de table
+app.get("/get/:table", (req, res) => {
+  let table = req.params.table;
+  var sql = `SELECT * FROM ${table}`;
+  db.query(sql, function (error, result) {
+    if (result.data) {
+      res.send({ status: false, message: "erreur de connection" });
+    } else {
+      res.send({ status: true, message: "connection valider", data: result });
+    }
+  });
+});
+
 
 
 
