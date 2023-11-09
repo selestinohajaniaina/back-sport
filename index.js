@@ -9,10 +9,15 @@ const port = 3000;
 // connexion au mysql
 
 const db = mysql.createConnection({
-    host:'localhost',
-    user:'root',
-    password:'',
-    database:'sport'
+    // host:'localhost',
+    // user:'root',
+    // password:'',
+    // database:'sport'
+    host:'www.db4free.net',
+    user:'selestino',
+    password:'SELESTINO',
+    database:'sport_database',
+    // insecureAuth : true
 });
 
 db.connect();
