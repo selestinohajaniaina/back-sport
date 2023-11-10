@@ -60,6 +60,26 @@ app.post("/person/add", (req, res) => {
         res.send({ status: true, message: "user created successfully" });
       }
     });
+
+    let sql1 = `SELECT * FROM user WHERE email='${detailsUser.email}'`;
+    let id1;
+    db.query(sql1, (error, result) => {
+      if (error) {
+        res.send({ status: false, message: `error of getting ${detailsUser.email}'s id` });
+      } else {
+        id1 = result.id;
+        res.send({ status: true, message: "getting id success" });
+      }
+    });
+
+    let sql2 = `INSERT INTO point(id_user) VALUES (${id1})`;
+    db.query(sql2, (error) => {
+      if (error) {
+        res.send({ status: false, message: `error of getting ${detailsUser.email}'s point`  });
+      } else {
+        res.send({ status: true, message: `getting ${detailsUser.email}'s point is success`  });
+      }
+    });
   });
 
 //selection des fichier au base de donner
