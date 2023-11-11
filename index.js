@@ -45,39 +45,20 @@ app.get("/user/:email", (req, res) => {
 
 //signup into db // insertion d'info d'utilisateur dans la base de donnée
 
-app.post("/person/add", (req, res) => {
+app.get("/person/add/:username/:email/:password", (req, res) => {
     let detailsUser = {
-      username: req.body.username,
-      email: req.body.email,
-      password: req.body.password,
-      pays: req.body.pays,
+      username: req.params.username,
+      email: req.params.email,
+      password: req.params.password,
+      pays: '',
     };
     let sql = "INSERT INTO user SET ?";
+    // console.log(req.params);
     db.query(sql, detailsUser, (error) => {
       if (error) {
         res.send({ status: false, message: "user created Failed" });
       } else {
         res.send({ status: true, message: "user created successfully" });
-      }
-    });
-
-    let sql1 = `SELECT * FROM user WHERE email='${detailsUser.email}'`;
-    let id1;
-    db.query(sql1, (error, result) => {
-      if (error) {
-        res.send({ status: false, message: `error of getting ${detailsUser.email}'s id` });
-      } else {
-        id1 = result.id;
-        res.send({ status: true, message: "getting id success" });
-      }
-    });
-
-    let sql2 = `INSERT INTO point(id_user) VALUES (${id1})`;
-    db.query(sql2, (error) => {
-      if (error) {
-        res.send({ status: false, message: `error of getting ${detailsUser.email}'s point`  });
-      } else {
-        res.send({ status: true, message: `getting ${detailsUser.email}'s point is success`  });
       }
     });
   });
